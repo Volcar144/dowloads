@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const baseFolder = "downloads/uploads/";
   const fileList = document.getElementById("file-list");
@@ -6,20 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Simulate files, replace with actual file names
   const files = {
     jar: ["ChatFilter.jar", "DiscordSRV-Build-1.28.0.jar", "Fadah-Bukkit-2.7.4.jar", "InsaneAnnouncer-1.4.4.jar", "PocketHorses-1.9.6.jar"],
-    image: ["download.jpg","steamuserimages-a.akamaihd.gif"],
+    image: ["download.jpg", "steamuserimages-a.akamaihd.gif"],
     text: ["readme.txt"]
   };
 
-  const allFiles = {
-    jar: files.jars,
-    image: files.images,
-    text: files.texts
-  };
+  // Combine all file arrays into one for easier filtering
+  const allFiles = Object.values(files).flat();
 
   // Display files
-  function displayFiles(files) {
+  function displayFiles(fileArray) {
     fileList.innerHTML = ''; // Clear existing list
-    files.forEach((file) => {
+    fileArray.forEach((file) => {
       const listItem = document.createElement("li");
 
       const link = document.createElement("a");
@@ -34,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         preview.classList.add("file-preview");
         const img = document.createElement("img");
         img.src = `${baseFolder}${file}`;
+        img.alt = file;
         preview.appendChild(img);
         listItem.appendChild(preview);
       }
@@ -46,11 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to filter files based on search
   function filterFiles(query) {
-    const filteredFiles = [];
-    for (const folder in allFiles) {
-      const folderFiles = allFiles[folder].filter((file) => file.toLowerCase().includes(query.toLowerCase()));
-      filteredFiles.push(...folderFiles);
-    }
+    const filteredFiles = allFiles.filter((file) =>
+      file.toLowerCase().includes(query.toLowerCase())
+    );
     displayFiles(filteredFiles);
   }
 
@@ -61,5 +58,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initially display all files
-  displayFiles([...files.jars, ...files.images, ...files.texts]);
+  displayFiles(allFiles);
 });
