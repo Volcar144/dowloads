@@ -8,7 +8,9 @@
     /* General Styles for the page */
     body {
       font-family: Arial, sans-serif;
-      background: #f0f0f0;
+      background: linear-gradient(45deg, #f7b7d4, #f9e3d5);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
       margin: 0;
       padding: 0;
       display: flex;
@@ -16,7 +18,14 @@
       align-items: center;
       height: 100vh;
     }
-    
+
+    /* Animation for the background gradient */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .container {
       width: 90%;
       max-width: 800px;
@@ -49,6 +58,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     /* File preview styles */
@@ -58,33 +68,37 @@
       margin-right: 10px;
     }
 
-    /* Favorites Button */
-    .fav-button {
-      margin-left: 10px;
+    /* Styling the buttons */
+    .button-container {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .fav-button, .qr-button {
+      padding: 8px 12px;
+      font-size: 16px;
       cursor: pointer;
-      background: none;
+      border-radius: 6px;
       border: none;
-      font-size: 18px;
-      color: gold;
+    }
+
+    .fav-button {
+      background-color: #f7b7d4;
+      color: white;
     }
 
     .fav-button:hover {
-      color: darkorange;
+      background-color: #f58a9c;
     }
 
-    /* QR Code Button */
     .qr-button {
-      margin-left: 10px;
-      cursor: pointer;
-      background: lightblue;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
+      background-color: #a2d8f0;
+      color: white;
     }
 
     .qr-button:hover {
-      background: deepskyblue;
-      color: white;
+      background-color: #6dbbe8;
     }
 
     /* QR Code Modal */
@@ -187,8 +201,14 @@
           }
 
           listItem.appendChild(link);
-          listItem.appendChild(favButton);
-          listItem.appendChild(qrButton);
+
+          // Add buttons inside a container for better alignment
+          const buttonContainer = document.createElement("div");
+          buttonContainer.classList.add("button-container");
+          buttonContainer.appendChild(favButton);
+          buttonContainer.appendChild(qrButton);
+          listItem.appendChild(buttonContainer);
+
           fileList.appendChild(listItem);
         });
       }
@@ -251,4 +271,5 @@
   </script>
 </body>
 </html>
+
 
