@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Simulate files, replace with actual file names
   const files = {
-    jar: ["ChatFilter.jar", "DiscordSRV-Build-1.28.0.jar", "Fadah-Bukkit-2.7.4.jar", "InsaneAnnouncer-1.4.4.jar", "PocketHorses-1.9.6.jar"],
+    jar: ["ChatFilter.jar", "DiscordSRV-Build-1.28.0.jar", "Fadah-Bukkit-2.7.4.jar", "InsaneAnnouncer-1.4.4.jar", "PocketHorses-1.9.6.jar","ProAntiTab-1.9.0.jar","Simple Codes.jar","Socialismus-PAPER-1.3.8.jar","TerraformGenerator-18.0.0.jar"],
     image: ["download.jpg", "steamuserimages-a.akamaihd.gif"],
     text: ["readme.txt"]
   };
