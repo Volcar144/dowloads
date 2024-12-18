@@ -15,18 +15,35 @@ document.addEventListener("DOMContentLoaded", () => {
     fileArray.map(file => ({ type, file }))
   );
 
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
   // Display files
   function displayFiles(fileArray) {
     fileList.innerHTML = ''; // Clear existing list
     fileArray.forEach(({ type, file }) => {
       const listItem = document.createElement("li");
 
-      const link = document.createElement("a");
       const filePath = `${baseFolder}${type}/${file}`;
+
+      // Create the download link
+      const link = document.createElement("a");
       link.href = filePath;
       link.download = file;
+      link.textContent = `Download ${file}`;
 
-      const fileType = file.split(".").pop().toLowerCase(); // Get the file extension
+      // Create the favorite button
+      const favButton = document.createElement("button");
+      favButton.textContent = favorites.includes(file) ? "★" : "☆"; // Star if favorited
+      favButton.title = "Add to favorites";
+      favButton.classList.add("fav-button");
+      favButton.addEventListener("click", () => toggleFavorite(file, favButton));
+
+      // Create the QR code button
+      const qrButton = document.createElement("button");
+      qrButton.textContent = "QR";
+      qrButton.title = "Generate QR Code";
+      qrButton.classList.add("qr-button");
+      qrButton.addEventListener("click", () => generateQRCode(filePath));
 
       // Add file preview for images
       if (type === 'image') {
@@ -39,9 +56,48 @@ document.addEventListener("DOMContentLoaded", () => {
         listItem.appendChild(preview);
       }
 
-      link.textContent = `Download ${file}`;
       listItem.appendChild(link);
+      listItem.appendChild(favButton);
+      listItem.appendChild(qrButton);
       fileList.appendChild(listItem);
+    });
+  }
+
+  // Function to toggle favorites
+  function toggleFavorite(file, button) {
+    const index = favorites.indexOf(file);
+    if (index > -1) {
+      favorites.splice(index, 1);
+      button.textContent = "☆";
+    } else {
+      favorites.push(file);
+      button.textContent = "★";
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+
+  // Function to generate QR Code
+  function generateQRCode(url) {
+    const qrModal = document.createElement("div");
+    qrModal.classList.add("qr-modal");
+    qrModal.innerHTML = `
+      <div class="qr-container">
+        <div id="qr-code"></div>
+        <button id="close-qr">Close</button>
+      </div>
+    `;
+    document.body.appendChild(qrModal);
+
+    // Generate the QR Code
+    const qrCode = new QRCode(document.getElementById("qr-code"), {
+      text: url,
+      width: 200,
+      height: 200
+    });
+
+    // Close button functionality
+    document.getElementById("close-qr").addEventListener("click", () => {
+      qrModal.remove();
     });
   }
 
