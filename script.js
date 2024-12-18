@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const baseFolder = "downloads/uploads/";
+  const baseFolder = "uploads/";
   const fileList = document.getElementById("file-list");
   const searchInput = document.getElementById("search");
 
@@ -22,13 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const listItem = document.createElement("li");
 
       const link = document.createElement("a");
-      let filePath = `${baseFolder}${type}/${file}`;
-      
-      // Correct the folder path for images
-      if (type === "image") {
-        filePath = `${baseFolder}images/${file}`;
-      }
-
+      const filePath = `${baseFolder}${type}/${file}`;
       link.href = filePath;
       link.download = file;
 
@@ -68,4 +62,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initially display all files
   displayFiles(allFiles);
 });
-
