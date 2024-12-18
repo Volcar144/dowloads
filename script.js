@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const baseFolder = "downloads/uploads/";
   const fileList = document.getElementById("file-list");
@@ -11,27 +10,30 @@ document.addEventListener("DOMContentLoaded", () => {
     text: ["readme.txt"]
   };
 
-  // Combine all file arrays into one for easier filtering
-  const allFiles = Object.values(files).flat();
+  // Combine all files into a single array for easier filtering
+  const allFiles = Object.entries(files).flatMap(([type, fileArray]) =>
+    fileArray.map(file => ({ type, file }))
+  );
 
   // Display files
   function displayFiles(fileArray) {
     fileList.innerHTML = ''; // Clear existing list
-    fileArray.forEach((file) => {
+    fileArray.forEach(({ type, file }) => {
       const listItem = document.createElement("li");
 
       const link = document.createElement("a");
-      link.href = `${baseFolder}${file}`;
+      const filePath = `${baseFolder}${type}/${file}`;
+      link.href = filePath;
       link.download = file;
 
-      const fileType = file.split(".").pop().toLowerCase(); // Get the file type
+      const fileType = file.split(".").pop().toLowerCase(); // Get the file extension
 
-      // Add file preview for images or text files
-      if (fileType === 'png' || fileType === 'jpg' || fileType === 'gif') {
+      // Add file preview for images
+      if (type === 'image') {
         const preview = document.createElement("div");
         preview.classList.add("file-preview");
         const img = document.createElement("img");
-        img.src = `${baseFolder}${file}`;
+        img.src = filePath;
         img.alt = file;
         preview.appendChild(img);
         listItem.appendChild(preview);
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to filter files based on search
   function filterFiles(query) {
-    const filteredFiles = allFiles.filter((file) =>
+    const filteredFiles = allFiles.filter(({ file }) =>
       file.toLowerCase().includes(query.toLowerCase())
     );
     displayFiles(filteredFiles);
