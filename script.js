@@ -22,7 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const listItem = document.createElement("li");
 
       const link = document.createElement("a");
-      const filePath = `${baseFolder}${type}/${file}`;
+      let filePath = `${baseFolder}${type}/${file}`;
+      
+      // Correct the folder path for images
+      if (type === "image") {
+        filePath = `${baseFolder}images/${file}`;
+      }
+
       link.href = filePath;
       link.download = file;
 
@@ -62,3 +68,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initially display all files
   displayFiles(allFiles);
 });
+
