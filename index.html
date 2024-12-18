@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Files</title>
+  <title>Dynamic Downloads</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -30,9 +30,11 @@
   </style>
 </head>
 <body>
-  <h1>Download Files</h1>
-  <ul>
-    <li><a href="downloads/jars/example.jar" download>Download Example Jar</a></li>
+  <h1>Available Downloads</h1>
+  <p>Below is a dynamically generated list of downloadable files:</p>
+  <ul id="file-list">
+    <!-- Links will be dynamically added here -->
   </ul>
+  <script src="script.js"></script>
 </body>
 </html>
